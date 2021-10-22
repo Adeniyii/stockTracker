@@ -14,7 +14,9 @@
   "author": "Adeniyii <ifedayoadeniyi@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "app-root-path": "^3.0.0",
     "axios": "^0.23.0",
+    "chalk": "^4.1.2",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
@@ -23,6 +25,7 @@
     "moment": "^2.29.1",
     "mongoose": "^6.0.12",
     "mongoose-unique-validator": "^3.0.0",
+    "morgan": "^1.10.0",
     "swagger-ui-express": "^4.1.6",
     "winston": "^3.3.3"
   },
