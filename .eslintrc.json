@@ -1,32 +1,46 @@
 {
-  "extends": [
-    "airbnb",
-    "plugin:prettier/recommended",
-    "prettier/react"
-  ],
   "env": {
-    "browser": true,
     "commonjs": true,
-    "es6": true,
-    "jest": true,
+    "es2021": true,
     "node": true
   },
+  "extends": [
+    "prettier",
+    "airbnb-base"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parserOptions": {
+    "ecmaVersion": 12
+  },
+  "plugins": [
+    "prettier",
+    "json"
+  ],
   "rules": {
-    "jsx-a11y/href-no-hash": ["off"],
-    "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
-    "max-len": [
-      "warn",
+    "prettier/prettier": "error",
+    "no-underscore-dangle": "off",
+    "operator-linebreak": "off",
+    "implicit-arrow-linebreak": "off",
+    "camelcase": "off",
+    "comma-dangle": [
+      2,
       {
-        "code": 80,
-        "tabWidth": 2,
-        "comments": 80,
-        "ignoreComments": false,
-        "ignoreTrailingComments": true,
-        "ignoreUrls": true,
-        "ignoreStrings": true,
-        "ignoreTemplateLiterals": true,
-        "ignoreRegExpLiterals": true
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "ignore"
       }
-    ]
+    ],
+    "prefer-const": [
+      "error",
+      {
+        "destructuring": "all"
+      }
+    ],
+    "object-curly-newline": "off"
   }
 }

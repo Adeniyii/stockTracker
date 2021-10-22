@@ -6,8 +6,9 @@
     "test": "jest",
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "lint": "eslint . --ext .js",
-    "format": "prettier --write ./**/*.js"
+    "lint": "eslint --cache --fix",
+    "format": "prettier --write",
+    "prepare": "husky install"
   },
   "repository": "https://github.com/Adeniyii/stockTracker.git",
   "author": "Adeniyii <ifedayoadeniyi@gmail.com>",
@@ -33,10 +34,17 @@
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-json": "^3.1.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "husky": "^7.0.4",
+    "husky": "^7.0.0",
     "jest": "^27.3.1",
+    "lint-staged": "^11.2.3",
     "nodemon": "^2.0.14",
     "prettier": "^2.4.1",
     "supertest": "^6.1.6"
+  },
+  "lint-staged": {
+    "*.js": [
+      "format",
+      "lint"
+    ]
   }
 }
