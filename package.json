@@ -1,0 +1,8 @@
+{
+  "name": "stockTracker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Adeniyii/stockTracker.git",
+  "author": "Adeniyii <ifedayoadeniyi@gmail.com>",
+  "license": "MIT"
+}
