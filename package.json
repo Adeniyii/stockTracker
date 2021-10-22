@@ -6,8 +6,8 @@
     "test": "jest",
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "lint": "eslint --cache --fix",
-    "format": "prettier --write",
+    "lint": "eslint . --ext .js",
+    "format": "prettier --write ./**/*.js",
     "prepare": "husky install"
   },
   "repository": "https://github.com/Adeniyii/stockTracker.git",
@@ -43,8 +43,8 @@
   },
   "lint-staged": {
     "*.js": [
-      "format",
-      "lint"
+      "yarn run format",
+      "yarn run lint"
     ]
   }
 }
