@@ -1,8 +1,35 @@
 {
-  "name": "stockTracker",
+  "name": "stock-tracker",
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/Adeniyii/stockTracker.git",
   "author": "Adeniyii <ifedayoadeniyi@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.23.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
+    "mongoose": "^6.0.12",
+    "mongoose-unique-validator": "^3.0.0",
+    "swagger-ui-express": "^4.1.6"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "codecov": "^3.8.3",
+    "eslint": "^8.0.1",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.26.1",
+    "husky": "^7.0.4",
+    "jest": "^27.3.1",
+    "nodemon": "^2.0.14",
+    "prettier": "^2.4.1",
+    "supertest": "^6.1.6"
+  }
 }
