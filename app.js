@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
 // Require routes.
 const authRouter = require('./routes/AuthRoute/index');
 
-app.use('/docs/v1', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/auth', authRouter);
+app.use('/docs/v1', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 module.exports = app;
