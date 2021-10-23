@@ -1,0 +1,98 @@
+openapi: '3.0.0'
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/PickleRick-sama/stock-tracker/1.0.0
+  - description: Development server
+    url: http://localhost:3000
+
+info:
+  description: This API represents the core StockTracker API. See info on verbs here https://restfulapi.net/http-methods/
+
+  version: '1.0.0'
+  title: Stock Tracker API
+  contact:
+    email: ifedayoadeniyi@gmail.com
+  license:
+    name: 'Licensed Under MIT'
+    url: 'https://spdx.org/licenses/MIT.html'
+
+##################################################
+##### Tags in the system
+
+tags:
+  - name: Auth
+    description: Endpoint for managing all the authentication going on in the system
+    externalDocs:
+      url: https://app.swaggerhub.com/apis-docs/PickleRick-sama/stock-tracker/1.0.0#/Auth
+
+  - name: Users
+    description: This endpoint provides information about a particular user
+    externalDocs:
+      url: https://app.swaggerhub.com/apis-docs/PickleRick-sama/stock-tracker/1.0.0#/Users
+
+##################################################
+##### Components in the system
+components:
+  parameters:
+    # For Access Control
+    token:
+      in: header
+      name: x-access-token
+      required: true
+      schema:
+        type: string
+
+    # Uniquely identifying a particular user.
+    user_id:
+      in: path
+      name: user_id
+      required: true
+      schema:
+        type: string
+
+  schemas:
+    RegisterInfo:
+      type: object
+      properties:
+        email:
+          type: string
+        phone:
+          type: string
+        password:
+          type: string
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        phone_number:
+          type: number
+        password:
+          type: string
+        email:
+          type: string
+        access_token:
+          type: string
+        refresh_token:
+          type: string
+
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          default: false
+        message:
+          type: string
+        error:
+          type: object
+
+    Success:
+      type: array
+      items:
+        type: object
