@@ -9,7 +9,7 @@ const { errorResponse, successResponse } = require('../util/response_handler');
 /**
  * Sign up a user
  * @param {request} req Express request object
- * @param {response} res Express response onject
+ * @param {response} res Express response object
  * @param {NextFunction} next Next function
  * @returns *
  */
