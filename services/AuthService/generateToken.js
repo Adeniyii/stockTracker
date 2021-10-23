@@ -1,7 +1,12 @@
 const jwt = require('jsonwebtoken');
 const UserModel = require('../../models/user.model');
 
-exports.genarateToken = async (payload) => {
+/**
+ * Generate refresh & access tokens, and update user.
+ * @param {*} payload Data to sign into a jwt
+ * @returns *
+ */
+exports.generateToken = async (payload) => {
   const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_KEY, {
     expiresIn: '2h',
   });
