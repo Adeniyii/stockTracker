@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 const { body, oneOf } = require('express-validator');
 
 /**

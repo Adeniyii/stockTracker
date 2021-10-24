@@ -2,9 +2,11 @@ const bcrypt = require('bcryptjs');
 const AppError = require('../util/appError');
 const catchAsync = require('../util/catchAsync');
 const { successResponse } = require('../util/response_handler');
-const { loginService } = require('../services/AuthService/login.service');
-const { signUpService } = require('../services/AuthService/signup.service');
-const { userExists } = require('../services/AuthService/userExists.service');
+const {
+  loginService,
+  userExists,
+  signUpService,
+} = require('../services/AuthService');
 
 /**
  * Registers a user
