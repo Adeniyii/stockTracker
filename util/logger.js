@@ -1,11 +1,18 @@
-/* eslint-disable no-console */
 const path = require('path');
+// const chalk = require('chalk');
+
 const { createLogger, format, transports } = require('winston');
 
-const { combine, timestamp: timestampFn, printf, prettyPrint } = format;
+const {
+  combine,
+  timestamp: timestampFn,
+  printf,
+  prettyPrint,
+  colorize,
+} = format;
 
 // Format function
-const printFormat = printf(
+const myFormat = printf(
   ({ level, message, timestamp }) => `${timestamp} - ${level}: ${message}`,
 );
 
@@ -32,17 +39,8 @@ const rejectionsTransport = new transports.File({
   filename: path.join(__dirname, '../logs/rejections.log'),
 });
 
-// Inatantiate Logger
 const logger = createLogger({
-  format: combine(
-    timestampFn(),
-    printFormat,
-    prettyPrint(),
-    format.colorize(),
-    format.json({
-      space: 2,
-    }),
-  ),
+  format: combine(timestampFn(), myFormat, prettyPrint()),
 });
 
 // If we're not in production then log to the `console` with the format:
@@ -50,7 +48,7 @@ if (process.env.NODE_ENV !== 'production') {
   logger.add(
     new transports.Console({
       handleExceptions: true,
-      format: combine(timestampFn(), printFormat),
+      format: combine(colorize(), timestampFn(), myFormat),
     }),
   );
 }
