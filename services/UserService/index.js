@@ -1,3 +1,4 @@
 const { findUserById } = require('./findById');
+const { updateUser } = require('./updateUser');
 
-module.exports = { findUserById };
+module.exports = { findUserById, updateUser };

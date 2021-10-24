@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const AppError = require('../util/appError');
 const catchAsync = require('../util/catchAsync');
-const { findUserById } = require('../services/UserService');
+const { findUserById, updateUser } = require('../services/UserService');
 const { successResponse } = require('../util/response_handler');
 
 /**
@@ -15,18 +15,15 @@ const getSingleUser = async (req, res, next) => {
   const { user_id } = req.params;
 
   const requestingUser = await findUserById(req.user.user_id);
-
   // only super admins can access users with a different id from theirs
   if (req.user.user_id !== user_id && requestingUser.is_super_admin === false) {
     return next(new AppError('Permission denied', 403));
   }
 
   const requestedUser = await findUserById(user_id);
-
   if (!requestedUser) {
     return next(new AppError('User not found', 404));
   }
-
   return successResponse(res, 200, { user: requestedUser });
 };
 
@@ -39,8 +36,8 @@ const getSingleUser = async (req, res, next) => {
  */
 const updateSingleUser = async (req, res, next) => {
   const { user_id } = req.params;
-  const requestingUser = await findUserById(req.user.user_id);
 
+  const requestingUser = await findUserById(req.user.user_id);
   // only super admins can update users with a different id from theirs
   if (req.user.user_id !== user_id && requestingUser.is_super_admin === false) {
     return next(new AppError('Permission denied', 403));
@@ -48,7 +45,6 @@ const updateSingleUser = async (req, res, next) => {
 
   // Retrieve user to update
   const requestedUser = await findUserById(user_id);
-
   if (!requestedUser) {
     return next(new AppError('User not found', 404));
   }
@@ -67,11 +63,8 @@ const updateSingleUser = async (req, res, next) => {
     last_name,
     password,
   };
-
   // Update user document
-  // eslint-disable-next-line no-undef
   const updated = await updateUser(requestedUser, update);
-
   return successResponse(res, 200, { user: updated });
 };
 
