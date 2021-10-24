@@ -1,18 +1,18 @@
 const router = require('express').Router();
-const { signUp } = require('../../controllers/auth.controller');
-const { validateUserSignIn } = require('../../middlewares/auth');
 const bodyValidator = require('../../util/body_validator');
+const { validateUserLogin } = require('../../middlewares/auth');
+const { login } = require('../../controllers/auth.controller');
 
 /**
  * @swagger
- * /auth/signup:
+ * /auth/login:
  *   post:
  *     tags:
  *      - Auth
- *     summary: Creates a user account
- *     description: Creates a user account using info from body
+ *     summary: Logs in a user
+ *     description: Logs in a user if correct details are provided
  *     requestBody:
- *       description: Registration details
+ *       description: Login details
  *       required: true
  *       content:
  *         application/json:
@@ -39,6 +39,6 @@ const bodyValidator = require('../../util/body_validator');
  *            schema:
  *              $ref: '#/components/schemas/Error'
  */
-router.use('/', validateUserSignIn(), bodyValidator, signUp);
+router.use('/', validateUserLogin(), bodyValidator, login);
 
 module.exports = router;
