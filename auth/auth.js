@@ -7,7 +7,7 @@ const verifyToken = (req, res, next) => {
   const token =
     req.body.token ||
     req.query.token ||
-    req.headers.Authorization.split(' ')[1];
+    req.headers.authorization.split(' ')[1];
 
   if (!token) {
     return next(

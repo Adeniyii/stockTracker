@@ -3,7 +3,7 @@ const { body, oneOf } = require('express-validator');
 /**
  * Validate registration request body
  */
-exports.validateUserSignIn = () => [
+exports.validateUserSignUp = () => [
   oneOf(
     [body('email').isEmail(), body('phone_number').isMobilePhone()],
     'phone_number or email required',

@@ -31,9 +31,11 @@ app.get('/', (req, res) => {
 });
 
 // Require routes.
-const authRouter = require('./routes/AuthRoute/index');
+const authRouter = require('./routes/AuthRoute');
+const userRouter = require('./routes/UserRoute');
 
 app.use('/auth', authRouter);
+app.use('/user', userRouter);
 app.use('/docs/v1', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Error handler
