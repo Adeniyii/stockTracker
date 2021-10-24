@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const express = require('express');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const globalErrorHandler = require('./controllers/error.controller');
 
 // Load swagger definition
 const swaggerDefinition = YAML.load('./docs/definition.yaml');
@@ -34,5 +35,8 @@ const authRouter = require('./routes/AuthRoute/index');
 
 app.use('/auth', authRouter);
 app.use('/docs/v1', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+// Error handler
+app.use(globalErrorHandler);
 
 module.exports = app;
