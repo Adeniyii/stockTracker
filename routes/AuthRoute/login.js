@@ -20,20 +20,19 @@ const { login } = require('../../controllers/auth.controller');
  *            $ref: '#/components/schemas/RegisterInfo'
  *     responses:
  *      '201':
- *        description: User registered successfully
+ *        description: Login successful
  *        content:
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/User'
  *      '400':
- *        description: The user provided invalid registration details
+ *        description: The user provided invalid login details
  *        content:
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/Error'
- *
- *      '409':
- *        description: A user with provided email or phone_number already exists
+ *      default:
+ *        description: An error occured
  *        content:
  *          application/json:
  *            schema:

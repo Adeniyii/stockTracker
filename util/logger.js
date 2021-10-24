@@ -62,6 +62,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Log any errors the logger, itself, might have, to prevent uncaught exceptions
+// eslint-disable-next-line no-console
 logger.on('error', (err) => console.error(err.message));
 
 module.exports = logger;

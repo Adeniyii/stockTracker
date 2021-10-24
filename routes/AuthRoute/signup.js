@@ -31,9 +31,14 @@ const bodyValidator = require('../../util/body_validator');
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/Error'
- *
  *      '409':
  *        description: A user with provided email or phone_number already exists
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Error'
+ *      default:
+ *        description: An error occured
  *        content:
  *          application/json:
  *            schema:

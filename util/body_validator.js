@@ -1,6 +1,13 @@
 const { validationResult } = require('express-validator');
-const { errorResponse } = require('./response_handler');
+const AppError = require('./appError');
 
+/**
+ * Process errors from middleware validations
+ * @param req
+ * @param res
+ * @param next
+ * @returns *
+ */
 module.exports = (req, res, next) => {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
@@ -28,5 +35,6 @@ module.exports = (req, res, next) => {
     response.error.errors = extractedErrors;
   }
 
-  return errorResponse(res, 'Invalid request', 400, extractedErrors[0].message);
+  const err = new AppError(extractedErrors[0].message, 400);
+  return next(err);
 };
