@@ -17,7 +17,7 @@ exports.generateToken = async (payload) => {
   // Save the user's new tokens
   const userWithTokens = await UserModel.findOneAndUpdate(
     { _id: payload.user_id },
-    { refreshToken, accessToken },
+    { refresh_token: refreshToken, access_token: accessToken },
     { runValidators: true, context: 'query', new: true },
   ).select(['-password']);
 
