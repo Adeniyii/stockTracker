@@ -1,7 +1,7 @@
 const router = require('express').Router();
+const { login } = require('../../controllers/auth.controller');
 const bodyValidator = require('../../middlewares/validationHandler');
 const { validateUserLogin } = require('../../middlewares/authValidator');
-const { login } = require('../../controllers/auth.controller');
 
 /**
  * @swagger
@@ -38,6 +38,6 @@ const { login } = require('../../controllers/auth.controller');
  *            schema:
  *              $ref: '#/components/schemas/Error'
  */
-router.use('/', validateUserLogin(), bodyValidator, login);
+router.post('/login', validateUserLogin(), bodyValidator, login);
 
 module.exports = router;
