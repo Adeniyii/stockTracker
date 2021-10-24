@@ -2,7 +2,7 @@ const { body, param } = require('express-validator');
 
 exports.userIdValidation = () => [param('user_id').isMongoId()];
 
-exports.userUpdateValidationRules = () => [
+exports.userUpdateValidation = () => [
   param('user_id').isMongoId(),
   body('email').isEmail().optional(),
   body('first_name').isString().optional(),
