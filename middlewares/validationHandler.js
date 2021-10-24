@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-const AppError = require('./appError');
+const AppError = require('../util/appError');
 
 /**
  * Process errors from middleware validations

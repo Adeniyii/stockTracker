@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { signUp } = require('../../controllers/auth.controller');
-const { validateUserSignIn } = require('../../middlewares/auth');
-const bodyValidator = require('../../util/body_validator');
+const { validateUserSignIn } = require('../../middlewares/authValidator');
+const bodyValidator = require('../../middlewares/validationHandler');
 
 /**
  * @swagger
