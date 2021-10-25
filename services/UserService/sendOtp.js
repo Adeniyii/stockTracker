@@ -14,6 +14,11 @@ const transporter = nodemailer.createTransport({
   logger: true, // log information in console
 });
 
+/**
+ * Send OTP to user's email.
+ * @param {string} user_id User database id
+ * @param {string} email Users email address
+ */
 exports.sendEmailOtp = async (user_id, email) => {
   let isSent;
   try {

@@ -1,11 +1,12 @@
 const bcrypt = require('bcryptjs');
 const AppError = require('../util/appError');
 const catchAsync = require('../util/catchAsync');
-const { successResponse } = require('../util/response_handler');
+const successResponse = require('../util/successHandler');
 const {
   findUserById,
   updateUser,
   sendEmailOtp,
+  verifyOtp,
 } = require('../services/UserService');
 
 /**
@@ -95,6 +96,8 @@ const activateUser = async (req, res, next) => {
   if (!requestedUser) {
     return next(new AppError('User not found', 404));
   }
+
+  // Check if 2FA is enabled for user
   if (requestedUser.is_2fa_enabled === false) {
     return next(new AppError('Two-factor authentication is disabled', 405));
   }
@@ -120,9 +123,49 @@ const activateUser = async (req, res, next) => {
   return successResponse(res, 204);
 };
 
+/**
+ * Verify OTP provided by user
+ * @param req
+ * @param res
+ * @param next
+ * @returns *
+ */
+const verifyActivationCode = async (req, res, next) => {
+  const { user_id } = req.params;
+  const { otp } = req.body;
+
+  const requestingUser = await findUserById(req.user.user_id);
+
+  // only super admins can send an OTP on behalf of a user
+  if (req.user.user_id !== user_id && requestingUser.is_super_admin === false) {
+    return next(new AppError('Permission denied', 403));
+  }
+
+  const requestedUser = await findUserById(user_id);
+
+  if (!requestedUser) {
+    return next(new AppError('User not found', 404));
+  }
+
+  // Check if 2FA is enabled for user
+  if (requestedUser.is_2fa_enabled === false) {
+    return next(new AppError('Two-factor authentication is disabled', 405));
+  }
+
+  // Verify OTP
+  const isVerified = await verifyOtp(user_id, otp);
+
+  if (!isVerified) {
+    return next(new AppError('OTP not found', 404));
+  }
+
+  return successResponse(res, 204);
+};
+
 // Exports
 module.exports = {
   activateUser: catchAsync(activateUser),
   getSingleUser: catchAsync(getSingleUser),
   updateSingleUser: catchAsync(updateSingleUser),
+  verifyActivationCode: catchAsync(verifyActivationCode),
 };
