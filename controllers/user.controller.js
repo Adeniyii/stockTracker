@@ -1,9 +1,12 @@
 const bcrypt = require('bcryptjs');
 const AppError = require('../util/appError');
 const catchAsync = require('../util/catchAsync');
-const { findUserById, updateUser } = require('../services/UserService');
 const { successResponse } = require('../util/response_handler');
-const { sendEmailOtp } = require('../services/UserService/sendOtp');
+const {
+  findUserById,
+  updateUser,
+  sendEmailOtp,
+} = require('../services/UserService');
 
 /**
  * Find a user.
@@ -69,7 +72,14 @@ const updateSingleUser = async (req, res, next) => {
   return successResponse(res, 200, { user: updated });
 };
 
-const sendOneTimePassword = async (req, res, next) => {
+/**
+ * Send OTP to user
+ * @param req
+ * @param res
+ * @param next
+ * @returns *
+ */
+const activateUser = async (req, res, next) => {
   const { user_id } = req.params;
   const { email, phone_number } = req.body;
 
@@ -110,7 +120,7 @@ const sendOneTimePassword = async (req, res, next) => {
 
 // Exports
 module.exports = {
+  activateUser: catchAsync(activateUser),
   getSingleUser: catchAsync(getSingleUser),
   updateSingleUser: catchAsync(updateSingleUser),
-  sendOneTimePassword: catchAsync(sendOneTimePassword),
 };
