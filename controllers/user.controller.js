@@ -149,7 +149,7 @@ const verifyActivationCode = async (req, res, next) => {
 
   // Check if 2FA is enabled for user
   if (requestedUser.is_2fa_enabled === false) {
-    return next(new AppError('Two-factor authentication is disabled', 405));
+    return next(new AppError('Two-factor authentication is disabled', 400));
   }
 
   // Verify OTP
@@ -159,7 +159,7 @@ const verifyActivationCode = async (req, res, next) => {
     return next(new AppError('OTP not found', 404));
   }
 
-  return successResponse(res, 204);
+  return successResponse(res, 200, 'Verification was successful');
 };
 
 // Exports

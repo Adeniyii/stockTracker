@@ -18,3 +18,8 @@ exports.userActivationValidation = () => [
     'phone_number or email is required',
   ),
 ];
+
+exports.verifyOtpValidation = () => [
+  param('user_id').isMongoId(),
+  body('otp').isString(),
+];

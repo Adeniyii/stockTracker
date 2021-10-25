@@ -10,8 +10,8 @@ const sendErrorDev = (err, req, res) => {
 
   return res.status(err.statusCode).json({
     status: err.status,
-    error: err,
     message: err.message,
+    error: err,
     stack: err.stack,
   });
 };

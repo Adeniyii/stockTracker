@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const AppError = require('../util/appError');
 const catchAsync = require('../util/catchAsync');
-const { successResponse } = require('../util/response_handler');
+const successResponse = require('../util/successHandler');
 const {
   loginService,
   userExists,
