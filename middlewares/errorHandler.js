@@ -1,6 +1,9 @@
 /* eslint-disable no-param-reassign */
 const logger = require('../util/logger');
 
+/**
+ * Handle development errors
+ */
 const sendErrorDev = (err, req, res) => {
   // Log error
   logger.error(`[errorController.js] (line 4) - ${err.message}`);
@@ -13,6 +16,9 @@ const sendErrorDev = (err, req, res) => {
   });
 };
 
+/**
+ * Handle production errors
+ */
 const sendErrorProd = (err, req, res) => {
   // Log error
   logger.error(`[errorController.js] (line 29) - ${err.message}`);
