@@ -1,0 +1,4 @@
+- create account ✅ (documented)
+- login to account ✅ (documented)
+- get a user account ✅ (undocumented)
+- update a user account ✅ (undocumented)

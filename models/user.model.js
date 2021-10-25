@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema(
     email: { type: String, unique: true, sparse: true },
     phone_number: { type: String, unique: true, sparse: true },
     is_super_admin: { type: Boolean, default: false },
+    is_2fa_enabled: { type: Boolean, default: false },
     password: { type: String },
     access_token: {
       type: String,
