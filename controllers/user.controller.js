@@ -53,7 +53,8 @@ const updateSingleUser = async (req, res, next) => {
     return next(new AppError('User not found', 404));
   }
 
-  let { phone_number, email, password, first_name, last_name } = req.body;
+  let { phone_number, email, password, first_name, last_name, is_2fa_enabled } =
+    req.body;
 
   if (password) {
     password = await bcrypt.hash(password, 10);
@@ -66,6 +67,7 @@ const updateSingleUser = async (req, res, next) => {
     first_name,
     last_name,
     password,
+    is_2fa_enabled,
   };
   // Update user document
   const updated = await updateUser(requestedUser, update);

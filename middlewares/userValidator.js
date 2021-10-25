@@ -8,6 +8,7 @@ exports.userUpdateValidation = () => [
   body('first_name').isString().optional(),
   body('last_name').isString().optional(),
   body('phone_number').isString().optional(),
+  body('is_2fa_enabled').isBoolean().optional(),
 ];
 
 exports.userActivationValidation = () => [

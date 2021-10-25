@@ -2,15 +2,16 @@ const nodemailer = require('nodemailer');
 const Otp = require('../../models/otp.model');
 const generateOtp = require('../../util/genToken');
 
-const { MAIL_USER, MAIL_PORT, MAIL_PASSWORD, MAIL_HOST } = process.env;
+const { MAIL_USER, MAIL_PASSWORD, MAIL_SERVICE } = process.env;
 
 const transporter = nodemailer.createTransport({
-  host: MAIL_HOST,
-  port: MAIL_PORT,
+  service: MAIL_SERVICE,
   auth: {
     user: MAIL_USER,
     pass: MAIL_PASSWORD,
   },
+  debug: true, // show debug output
+  logger: true, // log information in console
 });
 
 exports.sendEmailOtp = async (user_id, email) => {
@@ -39,7 +40,6 @@ exports.sendEmailOtp = async (user_id, email) => {
       subject: 'Your One Time Password',
       html: `
     <div>
-      <img src="https://customerpay.me/frontend/assets/img/favicon.png" style="display: block;margin: 10px auto" />
       <strong>Hi</strong>
       <p>Welcome back to StockTracker. To log in please provide your OTP.</p><br>
       <p>Your One Time Password is <strong style="font-size:1.15em;">${otp.otp_code}</strong></p></br>
