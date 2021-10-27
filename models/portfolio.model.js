@@ -1,11 +1,9 @@
 const mongoose = require('mongoose');
 
-const portfolioSchema = new mongoose.Schema(
-  {
-    name: String,
-    user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
-  },
-  { timestamps: true },
-);
+const portfolioSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  cash: { type: Number, default: 10000 },
+  user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
+});
 
 module.exports = mongoose.model('Portfolio', portfolioSchema);
