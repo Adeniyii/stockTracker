@@ -1,7 +1,7 @@
 const { generateToken } = require('./generateToken');
 const { loginService } = require('./login.service');
 const { signUpService } = require('./signup.service');
-const { userExists } = require('./userExists.service');
+const { userExists } = require('./userExists');
 
 module.exports = {
   generateToken,

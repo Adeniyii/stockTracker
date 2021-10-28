@@ -136,7 +136,7 @@ const verifyActivationCode = async (req, res, next) => {
 
   const requestingUser = await findUserById(req.user.user_id);
 
-  // only super admins can send an OTP on behalf of a user
+  // only super admins can verify an OTP on behalf of a user
   if (req.user.user_id !== user_id && requestingUser.is_super_admin === false) {
     return next(new AppError('Permission denied', 403));
   }
