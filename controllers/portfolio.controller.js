@@ -2,6 +2,38 @@
 const AppError = require('../util/appError');
 const catchAsync = require('../util/catchAsync');
 const successResponse = require('../util/successHandler');
+const { findUserById } = require('../services/UserService');
+const {
+  findPortfolioByName,
+  createPortfolioService,
+} = require('../services/PortfolioService');
+
+/**
+ * Create a new trade portfolio
+ * @param req
+ * @param res
+ * @param next
+ */
+const createPortfolio = async (req, res, next) => {
+  const { name } = req.body;
+  const { user_id } = req.params;
+
+  const requestingUser = await findUserById(req.user.user_id);
+  // only super admins can buy stock for another user
+  if (req.user.user_id !== user_id && requestingUser.is_super_admin === false) {
+    return next(new AppError('Permission denied', 403));
+  }
+
+  // Check if portfolio name is taken by user
+  const existingPortfolio = await findPortfolioByName({ name, user_id });
+  if (existingPortfolio) {
+    return next(new AppError('Portfolio already exists', 409));
+  }
+
+  const newPortfolio = await createPortfolioService(name, user_id);
+
+  return successResponse(res, 200, newPortfolio);
+};
 
 /**
  * Purchase selected stock amount
