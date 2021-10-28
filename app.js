@@ -33,9 +33,12 @@ app.get('/', (req, res) => {
 // Require routes.
 const authRouter = require('./routes/AuthRoute');
 const userRouter = require('./routes/UserRoute');
+const portfolioRouter = require('./routes/PortfolioRoute');
 
 app.use('/auth', authRouter);
 app.use('/user', userRouter);
+app.use('/portfolio', portfolioRouter);
+
 app.use('/docs/v1', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Error handler

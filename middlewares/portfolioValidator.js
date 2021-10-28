@@ -7,3 +7,8 @@ exports.validateCreatePortfolio = () => [
   body('name').exists(),
   body('user_id').isMongoId(),
 ];
+
+exports.validateGetPortfolio = () => [
+  body('portfolio_id').isMongoId(),
+  body('user_id').isMongoId(),
+];
