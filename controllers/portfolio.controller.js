@@ -104,7 +104,7 @@ const getAllPortfolio = async (req, res, next) => {
  */
 const purchaseStock = async (req, res, next) => {
   const { symbol, shares, portfolio_id } = req.body;
-  const { user_id } = req.param;
+  const { user_id } = req.params;
 
   const requestingUser = await findUserById(req.user.user_id);
   // only super admins can buy stock for another user
@@ -121,15 +121,15 @@ const purchaseStock = async (req, res, next) => {
   // Get realtime stock price
   const stockPrice = await getCurrentPrice(symbol);
   // Get cash left in portfolio
-  const availableCash = await getTotalCash(user_id, portfolio_id);
+  const { cash } = await getTotalCash(user_id, portfolio_id);
 
-  if (availableCash < stockPrice * shares) {
+  if (cash < stockPrice * shares) {
     return next(new AppError('Insufficient funds', 404));
   }
 
   // create update DTO
   const updateObj = {
-    cash: availableCash - stockPrice * shares,
+    cash: cash - stockPrice * shares,
   };
 
   // update portfolio cash

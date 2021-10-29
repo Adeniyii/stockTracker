@@ -3,12 +3,11 @@ const { IEX_TEST } = require('../../config/globals');
 
 const { IEX_TOKEN } = process.env;
 
-const AxiosInstance = axios.create({
-  baseURL: IEX_TEST,
-  params: { token: IEX_TOKEN },
-});
-
 exports.getCurrentPrice = async (symbol) => {
-  const { data } = await AxiosInstance.get(`/stable/stock/${symbol}/price,`);
-  return data;
+  const {
+    data: { latestPrice },
+  } = await axios.get(
+    `${IEX_TEST}/stable/stock/${symbol}/quote?token=${IEX_TOKEN}&filter=latestPrice,`,
+  );
+  return latestPrice;
 };
