@@ -1,4 +1,4 @@
-const { body } = require('express-validator');
+const { body, param } = require('express-validator');
 
 /**
  * Validate registration request body
@@ -9,6 +9,8 @@ exports.validateCreatePortfolio = () => [
 ];
 
 exports.validateGetPortfolio = () => [
-  body('portfolio_id').isMongoId(),
+  param('portfolio_id').isMongoId(),
   body('user_id').isMongoId(),
 ];
+
+exports.validateGetAllPortfolio = () => [param('user_id').isMongoId()];
