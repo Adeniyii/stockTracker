@@ -1,10 +1,9 @@
 const PortfolioModel = require('../../models/portfolio.model');
 
 /**
- * Find a single portfolio by name and user_id.
- * @param name
- * @param user_id
- * @returns
+ * Find a single portfolio by a filter.
+ * @param filter
+ * @returns *
  */
 exports.findPortfolioByFilter = async (filter) => {
   const portfolio = await PortfolioModel.findOne({ ...filter });
