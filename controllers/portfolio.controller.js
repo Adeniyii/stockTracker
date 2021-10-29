@@ -4,10 +4,16 @@ const catchAsync = require('../util/catchAsync');
 const successResponse = require('../util/successHandler');
 const { findUserById } = require('../services/UserService');
 const {
+  getTotalCash,
+  getCurrentPrice,
+  updatePortfolio,
   findPortfolioById,
   findPortfolioByFilter,
   createPortfolioService,
 } = require('../services/PortfolioService');
+const { findTradeBySymbol } = require('../services/TradeService/findTrade');
+const { createTradeService } = require('../services/TradeService/create');
+const { updateTradeService } = require('../services/TradeService');
 
 /**
  * Create a new trade portfolio
@@ -69,8 +75,62 @@ const getPortfolio = async (req, res, next) => {
  * @param next
  * @returns *
  */
-const purchaseStock = (req, res, next) => {
-  successResponse(res, 200);
+const purchaseStock = async (req, res, next) => {
+  const { symbol, shares, portfolio_id } = req.body;
+  const { user_id } = req.param;
+
+  const requestingUser = await findUserById(req.user.user_id);
+  // only super admins can buy stock for another user
+  if (req.user.user_id !== user_id && requestingUser.is_super_admin === false) {
+    return next(new AppError('Permission denied', 403));
+  }
+
+  // Check if portfolio exists
+  const requestingPortfolio = await findPortfolioById(portfolio_id);
+  if (!requestingPortfolio) {
+    return next(new AppError('Portfolio not found', 404));
+  }
+
+  // Get realtime stock price
+  const stockPrice = await getCurrentPrice(symbol);
+  // Get cash left in portfolio
+  const availableCash = await getTotalCash(user_id, portfolio_id);
+
+  if (availableCash < stockPrice * shares) {
+    return next(new AppError('Insufficient funds', 404));
+  }
+
+  // create update DTO
+  const updateObj = {
+    cash: availableCash - stockPrice * shares,
+  };
+
+  // update portfolio cash
+  const updatedPortfolio = await updatePortfolio(
+    portfolio_id,
+    user_id,
+    updateObj,
+  );
+
+  // check if stock exists in portfolio
+  const existingStock = await findTradeBySymbol(symbol, portfolio_id);
+
+  let payload = {};
+  let response = {};
+  if (!existingStock) {
+    payload = {
+      symbol,
+      shares,
+      portfolio_id,
+      purchase_price: stockPrice,
+    };
+    response = await createTradeService(payload);
+  } else {
+    payload = { shares: existingStock.shares + shares };
+    response = await updateTradeService(symbol, portfolio_id, payload);
+  }
+
+  return successResponse(res, 200, { trade: response });
 };
 
 /**
@@ -80,7 +140,7 @@ const purchaseStock = (req, res, next) => {
  * @param next
  * @returns *
  */
-const sellStock = (req, res, next) => {
+const sellStock = async (req, res, next) => {
   successResponse(res, 200);
 };
 
@@ -91,7 +151,7 @@ const sellStock = (req, res, next) => {
  * @param next
  * @returns *
  */
-const getPortfolioValue = (req, res, next) => {
+const getPortfolioValue = async (req, res, next) => {
   successResponse(res, 200);
 };
 
@@ -108,7 +168,8 @@ const getPortfolioPositions = async (req, res, next) => {
 
 module.exports = {
   sellStock: catchAsync(sellStock),
-  // purchaseStock: catchAsync(purchaseStock),
+  purchaseStock: catchAsync(purchaseStock),
+  getPortfolio: catchAsync(getPortfolio),
   createPortfolio: catchAsync(createPortfolio),
   getPortfolioValue: catchAsync(getPortfolioValue),
   getPortfolioPositions: catchAsync(getPortfolioPositions),
