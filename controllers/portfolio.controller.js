@@ -12,12 +12,15 @@ const {
   createPortfolioService,
   findAllPortfolio,
 } = require('../services/PortfolioService');
-const { findTradeBySymbol } = require('../services/TradeService/findTrade');
+const {
+  findTradeBySymbol,
+  findAllPortfolioTrades,
+} = require('../services/TradeService/findTrade');
 const { createTradeService } = require('../services/TradeService/create');
 const { updateTradeService } = require('../services/TradeService');
 
 /**
- * Create a new trade portfolio
+ * Create a new stock portfolio
  * @param req
  * @param res
  * @param next
@@ -190,7 +193,25 @@ const getPortfolioValue = async (req, res, next) => {
  * @returns *
  */
 const getPortfolioPositions = async (req, res, next) => {
-  successResponse(res, 200);
+  const { user_id } = req.params;
+  const { portfolio_id } = req.query;
+
+  const requestingUser = await findUserById(req.user.user_id);
+  // only super admins can buy stock for another user
+  if (req.user.user_id !== user_id && requestingUser.is_super_admin === false) {
+    return next(new AppError('Permission denied', 403));
+  }
+
+  // Check if portfolio exists
+  const requestingPortfolio = await findPortfolioById(portfolio_id);
+  if (!requestingPortfolio) {
+    return next(new AppError('Portfolio not found', 404));
+  }
+
+  // Get portfolio positions
+  // find all trade for a portfolio
+  const positions = await findAllPortfolioTrades(portfolio_id);
+  return successResponse(res, 200, { positions });
 };
 
 module.exports = {
