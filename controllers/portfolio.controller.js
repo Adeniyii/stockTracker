@@ -23,7 +23,8 @@ const { updateTradeService } = require('../services/TradeService');
  * @param next
  */
 const createPortfolio = async (req, res, next) => {
-  const { name, user_id } = req.body;
+  const { name } = req.body;
+  const { user_id } = req.params;
 
   const requestingUser = await findUserById(req.user.user_id);
   // only super admins can buy stock for another user
@@ -49,8 +50,8 @@ const createPortfolio = async (req, res, next) => {
  * @param next
  */
 const getSinglePortfolio = async (req, res, next) => {
-  const { user_id } = req.body;
-  const { portfolio_id } = req.params;
+  const { user_id } = req.params;
+  const { portfolio_id } = req.query;
 
   const requestingUser = await findUserById(req.user.user_id);
   // only super admins can query for another user's portfolio

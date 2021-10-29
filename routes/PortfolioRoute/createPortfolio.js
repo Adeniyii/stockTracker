@@ -7,7 +7,7 @@ const {
 } = require('../../middlewares/portfolioValidator');
 
 router.post(
-  '/create',
+  '/create/:user_id',
   auth,
   validateCreatePortfolio(),
   bodyValidator,

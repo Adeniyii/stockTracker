@@ -18,7 +18,7 @@ router.get(
   getAllPortfolio,
 );
 router.get(
-  '/:portfolio_id',
+  '/:user_id',
   auth,
   validateGetPortfolio(),
   bodyValidator,
