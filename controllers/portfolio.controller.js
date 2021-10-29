@@ -10,6 +10,7 @@ const {
   findPortfolioById,
   findPortfolioByFilter,
   createPortfolioService,
+  findAllPortfolio,
 } = require('../services/PortfolioService');
 const { findTradeBySymbol } = require('../services/TradeService/findTrade');
 const { createTradeService } = require('../services/TradeService/create');
@@ -47,8 +48,9 @@ const createPortfolio = async (req, res, next) => {
  * @param res
  * @param next
  */
-const getPortfolio = async (req, res, next) => {
-  const { portfolio_id, user_id } = req.body;
+const getSinglePortfolio = async (req, res, next) => {
+  const { user_id } = req.body;
+  const { portfolio_id } = req.params;
 
   const requestingUser = await findUserById(req.user.user_id);
   // only super admins can query for another user's portfolio
@@ -66,6 +68,30 @@ const getPortfolio = async (req, res, next) => {
   }
 
   return successResponse(res, 200, { portfolio: foundPortfolio });
+};
+
+/**
+ * Get all user's portfolio
+ * @param req
+ * @param res
+ * @param next
+ */
+const getAllPortfolio = async (req, res, next) => {
+  const { user_id } = req.params;
+
+  const requestingUser = await findUserById(req.user.user_id);
+  // only super admins can query for another user's portfolio
+  if (req.user.user_id !== user_id && requestingUser.is_super_admin === false) {
+    return next(new AppError('Permission denied', 403));
+  }
+
+  const portfolioList = await findAllPortfolio(user_id);
+
+  if (!portfolioList || portfolioList.length < 1) {
+    return next(new AppError('User has no portfolios', 404));
+  }
+
+  return successResponse(res, 200, { portfolio: portfolioList });
 };
 
 /**
@@ -169,8 +195,9 @@ const getPortfolioPositions = async (req, res, next) => {
 module.exports = {
   sellStock: catchAsync(sellStock),
   purchaseStock: catchAsync(purchaseStock),
-  getPortfolio: catchAsync(getPortfolio),
   createPortfolio: catchAsync(createPortfolio),
+  getAllPortfolio: catchAsync(getAllPortfolio),
   getPortfolioValue: catchAsync(getPortfolioValue),
+  getSinglePortfolio: catchAsync(getSinglePortfolio),
   getPortfolioPositions: catchAsync(getPortfolioPositions),
 };
