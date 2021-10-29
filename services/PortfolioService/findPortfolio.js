@@ -13,12 +13,22 @@ exports.findPortfolioByFilter = async (filter) => {
 
 /**
  * Find a single portfolio by id.
- * @param name
  * @param user_id
  * @returns
  */
 exports.findPortfolioById = async (id) => {
   const portfolio = await PortfolioModel.findById(id);
+
+  return portfolio;
+};
+
+/**
+ * Find all portfolio by user_id.
+ * @param user_id
+ * @returns
+ */
+exports.findAllPortfolio = async (user_id) => {
+  const portfolio = await PortfolioModel.find({ user_id });
 
   return portfolio;
 };
