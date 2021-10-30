@@ -43,6 +43,14 @@ components:
       schema:
         type: string
 
+    # For Access Control
+    otp:
+      in: query
+      name: One Time Password
+      required: true
+      schema:
+        type: string
+
     # Uniquely identifying a particular user.
     user_id:
       in: path
@@ -89,12 +97,18 @@ components:
         refresh_token:
           type: string
 
-    OTP:
+    ActivateOTP:
       type: object
       properties:
         email:
           type: string
         phone:
+          type: string
+
+    VerifyOTP:
+      type: object
+      properties:
+        otp:
           type: string
 
     Error:

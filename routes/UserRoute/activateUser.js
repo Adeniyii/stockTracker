@@ -20,18 +20,18 @@ const bodyValidator = require('../../middlewares/validationHandler');
  *       content:
  *         application/json:
  *           schema:
- *            $ref: '#/components/schemas/OTP'
+ *            $ref: '#/components/schemas/ActivateOTP'
  *     responses:
  *      '204':
- *        description: Update successful
+ *        description: OTP sent successfully
  *      '403':
- *        description: The requesting user is unauthorized to update the requested user
+ *        description: The requesting user is unauthorized to activate the requested user
  *        content:
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/Error'
  *      '404':
- *        description: The requested user does not exist
+ *        description: The user does not exist
  *        content:
  *          application/json:
  *            schema:

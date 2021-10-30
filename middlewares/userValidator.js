@@ -1,4 +1,4 @@
-const { body, param, oneOf } = require('express-validator');
+const { body, param, oneOf, query } = require('express-validator');
 
 exports.userIdValidation = () => [param('user_id').isMongoId()];
 
@@ -21,5 +21,5 @@ exports.userActivationValidation = () => [
 
 exports.verifyOtpValidation = () => [
   param('user_id').isMongoId(),
-  body('otp').isString(),
+  query('otp').isString(),
 ];
