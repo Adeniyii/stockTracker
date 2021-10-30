@@ -13,4 +13,9 @@ exports.validateGetPortfolio = () => [
   param('user_id').isMongoId(),
 ];
 
+exports.validateGetPortfolioValue = () => [
+  query('portfolio_id').isMongoId(),
+  param('user_id').isMongoId(),
+];
+
 exports.validateGetAllPortfolio = () => [param('user_id').isMongoId()];
