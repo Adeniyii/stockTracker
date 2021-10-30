@@ -26,7 +26,7 @@ tags:
     externalDocs:
       url: https://app.swaggerhub.com/apis-docs/PickleRick-sama/stock-tracker/1.0.0#/Auth
 
-  - name: Users
+  - name: User
     description: This endpoint provides information about a particular user
     externalDocs:
       url: https://app.swaggerhub.com/apis-docs/PickleRick-sama/stock-tracker/1.0.0#/Users
@@ -47,6 +47,14 @@ components:
     user_id:
       in: path
       name: user_id
+      required: true
+      schema:
+        type: string
+
+    # Uniquely identifying a particular user.
+    portfolio_id:
+      in: query
+      name: portfolio_id
       required: true
       schema:
         type: string
