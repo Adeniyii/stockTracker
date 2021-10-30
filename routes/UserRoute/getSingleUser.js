@@ -16,7 +16,7 @@ const { userIdValidation } = require('../../middlewares/userValidator');
  *      - $ref: '#/components/parameters/user_id'
  *     responses:
  *      '200':
- *        description: Login successful
+ *        description: Fetch successful
  *        content:
  *          application/json:
  *            schema:
