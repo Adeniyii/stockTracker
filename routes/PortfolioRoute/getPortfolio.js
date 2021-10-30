@@ -28,7 +28,7 @@ const {
  *            schema:
  *              $ref: '#/components/schemas/Portfolio'
  *      '403':
- *        description: The requesting user is unauthorized to update the requested user
+ *        description: The requesting user is unauthorized to fetch the requested portfolio
  *        content:
  *          application/json:
  *            schema:

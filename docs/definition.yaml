@@ -110,9 +110,17 @@ components:
         name:
           type: string
         user_id:
-          type: number
+          type: string
         cash:
           type: string
+
+    PortfolioValue:
+      type: object
+      properties:
+        total:
+          type: number
+        stockAggregate:
+          type: array
 
     ActivateOTP:
       type: object

@@ -184,7 +184,7 @@ const getPortfolioValue = async (req, res, next) => {
   // Check if portfolio exists
   const requestingPortfolio = await findPortfolioById(portfolio_id);
   if (!requestingPortfolio) {
-    return next(new AppError('Portfolio not found', 404));
+    return next(new AppError('Portfolio not found', 400));
   }
 
   const PortfolioValue = await getTotalPortfolioValue(portfolio_id);
