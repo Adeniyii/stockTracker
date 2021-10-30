@@ -27,9 +27,14 @@ tags:
       url: https://app.swaggerhub.com/apis-docs/PickleRick-sama/stock-tracker/1.0.0#/Auth
 
   - name: User
-    description: This endpoint provides information about a particular user
+    description: Endpoint for managing all the users in the system
     externalDocs:
       url: https://app.swaggerhub.com/apis-docs/PickleRick-sama/stock-tracker/1.0.0#/Users
+
+  - name: Portfolio
+    description: Endpoint for managing all the portfolios in the system
+    externalDocs:
+      url: https://app.swaggerhub.com/apis-docs/PickleRick-sama/stock-tracker/1.0.0#/Portfolio
 
 ##################################################
 ##### Components in the system
@@ -95,6 +100,18 @@ components:
         access_token:
           type: string
         refresh_token:
+          type: string
+
+    Portfolio:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        user_id:
+          type: number
+        cash:
           type: string
 
     ActivateOTP:
