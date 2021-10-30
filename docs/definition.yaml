@@ -89,6 +89,14 @@ components:
         refresh_token:
           type: string
 
+    OTP:
+      type: object
+      properties:
+        email:
+          type: string
+        phone:
+          type: string
+
     Error:
       type: object
       properties:
