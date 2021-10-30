@@ -6,7 +6,7 @@ const { body, param, query } = require('express-validator');
 exports.validateBuyStock = () => [
   body('symbol').exists(),
   body('shares').exists(),
-  body('portfolio_id').exists(),
+  query('portfolio_id').isMongoId(),
   param('user_id').isMongoId(),
 ];
 

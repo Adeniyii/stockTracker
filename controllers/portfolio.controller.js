@@ -107,7 +107,8 @@ const getAllPortfolio = async (req, res, next) => {
  * @returns *
  */
 const purchaseStock = async (req, res, next) => {
-  const { symbol, shares, portfolio_id } = req.body;
+  const { symbol, shares } = req.body;
+  const { portfolio_id } = req.query;
   const { user_id } = req.params;
 
   const requestingUser = await findUserById(req.user.user_id);
@@ -128,7 +129,7 @@ const purchaseStock = async (req, res, next) => {
   const { cash } = await getTotalCash(user_id, portfolio_id);
 
   if (cash < stockPrice * shares) {
-    return next(new AppError('Insufficient funds', 404));
+    return next(new AppError('Insufficient funds', 400));
   }
 
   // create update DTO

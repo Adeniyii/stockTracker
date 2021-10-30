@@ -143,6 +143,22 @@ components:
           cash:
             type: string
 
+    Stock:
+      type: object
+      properties:
+        _id:
+          type: string
+        symbol:
+          type: string
+        purchase_price:
+          type: number
+        shares:
+          type: number
+        portfolio_id:
+          type: string
+        purchase_date:
+          type: string
+
     ActivateOTP:
       type: object
       properties:
