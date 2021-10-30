@@ -7,17 +7,18 @@ const {
   getTotalCash,
   getCurrentPrice,
   updatePortfolio,
+  findAllPortfolio,
   findPortfolioById,
   findPortfolioByFilter,
   createPortfolioService,
-  findAllPortfolio,
+  getTotalPortfolioValue,
 } = require('../services/PortfolioService');
 const {
   findTradeBySymbol,
+  createTradeService,
+  updateTradeService,
   findAllPortfolioTrades,
-} = require('../services/TradeService/findTrade');
-const { createTradeService } = require('../services/TradeService/create');
-const { updateTradeService } = require('../services/TradeService');
+} = require('../services/TradeService');
 
 /**
  * Create a new stock portfolio
@@ -164,17 +165,6 @@ const purchaseStock = async (req, res, next) => {
 };
 
 /**
- * Sell selected amount of owned stock
- * @param req
- * @param res
- * @param next
- * @returns *
- */
-const sellStock = async (req, res, next) => {
-  successResponse(res, 200);
-};
-
-/**
  * Get total value of portfolio
  * @param req
  * @param res
@@ -182,7 +172,28 @@ const sellStock = async (req, res, next) => {
  * @returns *
  */
 const getPortfolioValue = async (req, res, next) => {
-  successResponse(res, 200);
+  const { portfolio_id } = req.query;
+  const { user_id } = req.params;
+
+  const requestingUser = await findUserById(req.user.user_id);
+  // only super admins can buy stock for another user
+  if (req.user.user_id !== user_id && requestingUser.is_super_admin === false) {
+    return next(new AppError('Permission denied', 403));
+  }
+
+  // Check if portfolio exists
+  const requestingPortfolio = await findPortfolioById(portfolio_id);
+  if (!requestingPortfolio) {
+    return next(new AppError('Portfolio not found', 404));
+  }
+
+  const PortfolioValue = await getTotalPortfolioValue(portfolio_id);
+
+  if (!PortfolioValue) {
+    return next(new AppError('Portfolio value not found', 404));
+  }
+
+  return successResponse(res, 200, { PortfolioValue });
 };
 
 /**
@@ -212,6 +223,18 @@ const getPortfolioPositions = async (req, res, next) => {
   // find all trade for a portfolio
   const positions = await findAllPortfolioTrades(portfolio_id);
   return successResponse(res, 200, { positions });
+};
+
+/**
+ * Sell selected amount of owned stock
+ * @param req
+ * @param res
+ * @param next
+ * @returns *
+ */
+const sellStock = async (req, res, next) => {
+  // TODO:implement controller, services and route.
+  successResponse(res, 200);
 };
 
 module.exports = {
