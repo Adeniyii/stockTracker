@@ -7,6 +7,7 @@ const {
 const { createPortfolioService } = require('./create');
 const { getCurrentPrice } = require('./getStockPrice');
 const { updatePortfolio } = require('./updatePortfolio');
+const { getTotalPortfolioValue } = require('./getTotalValue');
 
 module.exports = {
   getTotalCash,
@@ -16,4 +17,5 @@ module.exports = {
   findPortfolioById,
   findPortfolioByFilter,
   createPortfolioService,
+  getTotalPortfolioValue,
 };
