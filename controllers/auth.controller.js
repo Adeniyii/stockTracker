@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const AppError = require('../util/appError');
 const catchAsync = require('../util/catchAsync');
 const successResponse = require('../util/successHandler');
+const { findUserById } = require('../services/UserService');
 const {
   userExists,
   loginService,
@@ -90,7 +91,24 @@ const refreshToken = async (req, res, next) => {
   );
 };
 
+/**
+ * Get user info
+ * @param req
+ * @param res
+ * @param next
+ * @returns *
+ */
+const info = async (req, res, next) => {
+  const { user_id } = req.user;
+  const user = await findUserById(user_id);
+  if (!user) {
+    return next(new AppError('User does not exist', 404));
+  }
+  return successResponse(res, 200, { user });
+};
+
 module.exports = {
+  info: catchAsync(info),
   login: catchAsync(login),
   signUp: catchAsync(signUp),
   refreshToken: catchAsync(refreshToken),
