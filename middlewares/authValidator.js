@@ -21,3 +21,5 @@ exports.validateUserLogin = () => [
     'phone_number or email required',
   ),
 ];
+
+exports.refreshTokenValidation = () => [body('refresh_token').isString()];
