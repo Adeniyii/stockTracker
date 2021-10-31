@@ -1,11 +1,14 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const AppError = require('../util/appError');
 const catchAsync = require('../util/catchAsync');
 const successResponse = require('../util/successHandler');
 const {
-  loginService,
   userExists,
+  loginService,
   signUpService,
+  refreshTokenExists,
+  refreshTokenService,
 } = require('../services/AuthService');
 
 /**
@@ -57,4 +60,38 @@ const login = async (req, res, next) => {
   return next(err);
 };
 
-module.exports = { login: catchAsync(login), signUp: catchAsync(signUp) };
+/**
+ * Refreshes users access and refresh tokens
+ * @param req
+ * @param res
+ * @param next
+ */
+const refreshToken = async (req, res, next) => {
+  const { refresh_token } = req.body;
+  // eslint-disable-next-line consistent-return
+  jwt.verify(
+    refresh_token,
+    process.env.REFRESH_TOKEN_KEY,
+    async (err, decoded) => {
+      if (err) {
+        return next(new AppError('Invalid token', 401));
+      }
+      // make sure the user has not generated another refresh token already
+      const existingToken = await refreshTokenExists(
+        decoded.user_id,
+        refresh_token,
+      );
+      if (!existingToken) {
+        return next(new AppError('Invalid token', 401));
+      }
+      const tokens = await refreshTokenService(decoded.user_id);
+      return successResponse(res, 200, { tokens });
+    },
+  );
+};
+
+module.exports = {
+  login: catchAsync(login),
+  signUp: catchAsync(signUp),
+  refreshToken: catchAsync(refreshToken),
+};
