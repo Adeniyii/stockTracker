@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import useFetch from '../hooks/useFetch';
+import { UserContext } from '../context/UserContext';
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
   console.log('protected route rendered...');
-  const { data, error } = useFetch('/verify');
+  const { user } = useContext(UserContext);
+  console.log('current user: ', user);
 
   return (
     <Route
@@ -12,7 +13,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
       render={(props) => {
         return (
           <div>
-            {error && (
+            {!user && (
               <Redirect
                 to={{
                   pathname: '/login',
@@ -22,7 +23,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
                 }}
               />
             )}
-            {data && <Component {...rest} {...props} />}
+            {user && <Component {...rest} {...props} />}
           </div>
         );
       }}

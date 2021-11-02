@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import useFetch from '../hooks/useFetch';
+import { UserContext } from '../context/UserContext';
 
 const AuthRoute = ({ component: Component, ...rest }) => {
   console.log('auth route rendered...');
-  const { data, error } = useFetch('/verify');
+  const { user } = useContext(UserContext);
+  console.log('current user:', user);
 
   return (
     <Route
@@ -12,8 +13,8 @@ const AuthRoute = ({ component: Component, ...rest }) => {
       render={(props) => {
         return (
           <div>
-            {error && <Component {...rest} {...props} />}
-            {data && (
+            {!user && <Component {...rest} {...props} />}
+            {user && (
               <Redirect
                 to={{
                   pathname: '/',
